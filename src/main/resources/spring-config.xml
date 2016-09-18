@@ -55,14 +55,14 @@
 
 
     <!--Another example of using namespaces, once you declare the below you can use properties as normal - ${property}-->
-    <context:property-placeholder properties-ref="configProps"/>
+    <!--<context:property-placeholder properties-ref="configProps"/>-->
     <context:property-placeholder location="environment.properties"/>
     <!--Other examples of namespaces-->
-    <aop:aspectj-autoproxy/> <!-- This hides about 5+ definitions-->
-    <tx:annotation-driven/> <!-- Transactions config - hides about 15+ bean definitions -->
+    <!--<aop:aspectj-autoproxy/> &lt;!&ndash; This hides about 5+ definitions&ndash;&gt;-->
+    <!--<tx:annotation-driven/> &lt;!&ndash; Transactions config - hides about 15+ bean definitions &ndash;&gt;-->
 
     <!--Using env properties to load config files-->
-    <import resource="${name}-config.xml"/>
+    <!--<import resource="${name}-config.xml"/>-->
 
     <!--Using profiles-->
 
