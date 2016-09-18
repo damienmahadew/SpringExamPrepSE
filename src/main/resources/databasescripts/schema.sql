@@ -1,0 +1,21 @@
+
+
+--create schema statements
+CREATE SCHEMA damiens;
+
+--create table statements
+--------------------------------------------------
+--VIT_RSA.DEVICE
+--------------------------------------------------
+CREATE TABLE damiens.DEVICES (
+  DEVICE_ID BIGINT NOT NULL,
+  PARTNER_SYSTEM VARCHAR(30) NOT NULL,
+  DEVICE_MANUFACTURER VARCHAR(30) NOT NULL,
+  DEVICE_TYPE VARCHAR(25) NOT NULL,
+  INSTRUCTION_CODE NUMERIC(1) NOT NULL,
+  IS_GDL NUMERIC(1) NOT NULL,
+  IS_PARENT NUMERIC(1) NOT NULL,
+  ARCHIVE_STATE NUMERIC(2),
+  TENANT_ID NUMERIC(1) NOT NULL,
+  PRIMARY KEY (DEVICE_ID)
+);
