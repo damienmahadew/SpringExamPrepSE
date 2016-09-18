@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/cache"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+    <!--Common practice to not use version numbers here, these namespace definitions can be tedious and are prone to typos, so make use of the IDE-->
+
+
+    <!--Why XML - (Google what the below are!!)
+    1. Many shortcuts and useful techniques
+     a. Bean definition and inheritence
+     b. Inner beans
+     c. p and c namespace
+     d. using collections as spring beans-->
+
+    <!--Using annotations - need to enable it-->
+    <!--<context:annotation-driven/>-->
+
+    <!--Adding component scan using namespaces
+     This is the same as @ComponentScan-->
+    <context:component-scan base-package="za.co.mahadew.damien.services.impl, za.co.mahadew.damien.stereotypes"/>
+
+    <!--You can import other configs-->
+    <import resource="database-config.xml"/>
+
+    <bean id="houseService" class="za.co.mahadew.damien.services.impl.HouseServiceImpl">
+        <!--You may leave out name for constructor injection if the types match the input args of the constructor-->
+        <constructor-arg name="databaseService" ref="databaseService"/>
+        <constructor-arg ref="optionalService"/>
+
+        <!--You can also use index=0 for constructor args-->
+        <!--<constructor-arg index="0" value="10"/>-->
+
+        <property name="helperService" ref="helperService"/>
+        <property name="passValueString">
+            <value>foo</value>
+        </property>
+        <!--Spring does automatic type conversion for numeric types, bigdecimal, boolean, date, locale, resource-->
+        <property name="bigDecimal" value="25"/>
+    </bean>
+
+    <!--Create lazy bean in XML with scope as singleton-->
+    <bean lazy-init="true" id="optionalService" scope="singleton" class="za.co.mahadew.damien.services.impl.OptionalServiceImpl"/>
+
+    <bean id="helperService" scope="prototype" class="za.co.mahadew.damien.services.impl.HelperServiceImpl"/>
+
+
+    <!--You need to declare this bean in xml config otherwise you would not be able to reference it in the houseService Bean-->
+    <!-- You can also add post construct and pre destroys-->
+    <bean id="databaseService" class="za.co.mahadew.damien.services.impl.DatabaseServiceImpl" init-method="populateCache" destroy-method="cleanCache"/>
+
+
+
+    <!--Another example of using namespaces, once you declare the below you can use properties as normal - ${property}-->
+    <context:property-placeholder properties-ref="configProps"/>
+    <context:property-placeholder location="environment.properties"/>
+    <!--Other examples of namespaces-->
+    <aop:aspectj-autoproxy/> <!-- This hides about 5+ definitions-->
+    <tx:annotation-driven/> <!-- Transactions config - hides about 15+ bean definitions -->
+
+    <!--Using env properties to load config files-->
+    <import resource="${name}-config.xml"/>
+
+    <!--Using profiles-->
+
+    <beans profile="dev">
+        <util:properties id="configProps" location="environment.properties"/>
+    </beans>
+
+    <beans profile="prod">
+        <!--<util:properties id="configProps" location="environment.properties"/>-->
+    </beans>
+</beans>
