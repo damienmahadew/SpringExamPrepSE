@@ -15,10 +15,10 @@ public class BppExample implements BeanPostProcessor {
      * Not common to write your own, however spring provides many implementations
      */
     public Object postProcessBeforeInitialization(Object o, String s) throws BeansException {
-        return null;
+        return o;
     }
 
     public Object postProcessAfterInitialization(Object o, String s) throws BeansException {
-        return null;
+        return o;
     }
 }

@@ -19,6 +19,9 @@
     <!--Using annotations - need to enable it-->
     <!--<context:annotation-driven/>-->
 
+    <!--Enabling aspects-->
+    <aop:aspectj-autoproxy/>
+
     <!--Adding component scan using namespaces
      This is the same as @ComponentScan-->
     <context:component-scan base-package="za.co.mahadew.damien.services.impl, za.co.mahadew.damien.stereotypes"/>

@@ -6,6 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import za.co.mahadew.damien.config.AppConfig;
 import za.co.mahadew.damien.models.Laptop;
 import za.co.mahadew.damien.services.LaptopService;
+import za.co.mahadew.damien.services.NotificationService;
 
 /**
  * Hello world!
@@ -28,6 +29,7 @@ public class App
         String testingPropFromPropertiesPlaceholder= (String) applicationContext.getBean("testingPropFromPropertiesPlaceholder");
         String personsAgeSpELTesting= (String) applicationContext.getBean("personsAgeSpELTesting");
         LaptopService laptopServiceImpl = (LaptopService) applicationContext.getBean("laptopServiceImpl");
+        NotificationService notificationService = (NotificationService) applicationContext.getBean("");
 
         System.out.println(getHelloWorld);
         System.out.println(getBusinessConfigBean);
@@ -36,6 +38,7 @@ public class App
         System.out.println(testingPropFromPropertiesPlaceholder);
         System.out.println(personsAgeSpELTesting);
         System.out.println(laptopServiceImpl.getLaptopDetails(new Laptop()));
+
 
     }
 }

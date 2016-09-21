@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ImportResource;
  */
 @Configuration
 @ImportResource("classpath:/spring-config.xml") //import xml configuration
-@Import({InfrastructureConfig.class, BusinessConfig.class, AnnotationConfig.class})
+@Import({InfrastructureConfig.class, BusinessConfig.class, AnnotationConfig.class, AspectConfig.class})
 public class AppConfig {
 
     @Bean(name = "getHelloWorld")
