@@ -48,4 +48,32 @@ package za.co.mahadew.damien.aspects;
  *      3. All calls routed through proxy interceptor
  *      4. Matching advice is executed
  *      5. Target method is executed
+ *
+ *
+ * Spring AOP uses Aspectj pointcut expression language - for selecting where to apply advice
+ * Supports a practical subset
+ *
+ * Common pointcut designator
+ *      execution(<method pattern>) -- method must match the pattern
+ *      can chain together to create composite pointcuts
+ *      -- && || !
+ *      **method pattern = [MODIFIERS] ReturnType [CLASSTYPE] MethodName ([ARGUMENTS])[THROWS EXCEPTION]
+ *      e.g. execution(* rewards.restaurant.*Service.find*(..)) --look at page 144 for different examples
+ *      .. = 0 or more params
+ *
+ *
+ * Limitations To AOP
+ *
+ *      1. Can only advie non-private methods
+ *      2. Can only apply aspects to Spring Beans
+ *      3. If method a calls method b in the same class/interface then method b's advice wont get called
+ *
+ * Named pointcuts
+ *      1. Can break one complicated expression into several sub expressions
+ *      2. allow pointcut expression re-usability
+ *      3. best practice to externalize all pointcut expressions into one dedicated class
+ *          when working with many pointcuts
+ *          when writing complicated expressions
+ *
+ *
  */

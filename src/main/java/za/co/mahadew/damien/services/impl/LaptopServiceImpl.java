@@ -39,9 +39,15 @@ public class LaptopServiceImpl implements LaptopService {
     public LaptopServiceImpl(@Value("#{environment['laptop']}") String model) {
         this.model = model;
     }
+
     public String getLaptopDetails(Laptop laptop) {
+        laptop.setModel(" new Model for aspect testing");
         return make + " - " + model + " - " + testWithoutUsingCOnstructorOrSetter
                 + " - " + testSpELWithNoValueInproperties + " - " + testWithNoValueInproperties;
+    }
+
+    public String getTestExceptionThrowing(Laptop laptop) {
+        throw new RuntimeException(" Ok i am throwing a runtime exception");
     }
 
     public String getMake() {

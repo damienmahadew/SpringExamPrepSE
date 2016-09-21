@@ -29,7 +29,14 @@ public class App
         String testingPropFromPropertiesPlaceholder= (String) applicationContext.getBean("testingPropFromPropertiesPlaceholder");
         String personsAgeSpELTesting= (String) applicationContext.getBean("personsAgeSpELTesting");
         LaptopService laptopServiceImpl = (LaptopService) applicationContext.getBean("laptopServiceImpl");
-        NotificationService notificationService = (NotificationService) applicationContext.getBean("");
+
+        /**
+         * VERY IMPORTANT -- ASpects will only work on beans! as it needs to create proxies for them
+         */
+        Laptop laptop = (Laptop) applicationContext.getBean("laptopPrototypeBean");
+        laptop.setModel(" aspect testing");
+        //Testing XML config for aspect String get*()
+        laptop.getModel();
 
         System.out.println(getHelloWorld);
         System.out.println(getBusinessConfigBean);
@@ -37,7 +44,13 @@ public class App
         System.out.println(nameFromEnvProp);
         System.out.println(testingPropFromPropertiesPlaceholder);
         System.out.println(personsAgeSpELTesting);
-        System.out.println(laptopServiceImpl.getLaptopDetails(new Laptop()));
+        System.out.println(laptopServiceImpl.getLaptopDetails(laptop));
+        try {
+            laptopServiceImpl.getTestExceptionThrowing(laptop);
+        } catch (Exception e) {
+
+        }
+
 
 
     }

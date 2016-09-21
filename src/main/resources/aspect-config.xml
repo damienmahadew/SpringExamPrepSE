@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <aop:aspectj-autoproxy/>
+
+
+    <!--Basic way of implementing aop-->
+    <aop:config>
+        <aop:aspect ref="aspectTestingUsingXmlConfig">
+            <aop:before pointcut="execution(void set*())" method="testingXmlConfigBeforeAdvice"/>
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="aspectTestingUsingXmlConfig" class="za.co.mahadew.damien.aspects.AspectTestingUsingXmlConfig"/>
+
+    <!--Declare a pointcut expression e.g. for setter methods-->
+    <aop:config>
+        <aop:pointcut id="getterExpressions" expression="execution(String get*(*))"/>
+        <aop:aspect ref="aspectTestingUsingXmlConfig">
+            <aop:after-returning method="testingXmlConfigAfterReturningAdvice" returning="string" pointcut-ref="getterExpressions"/>
+            <aop:after-throwing method="testingXmlConfigAfterThrowingAdvice" throwing="e" pointcut-ref="getterExpressions"/>
+        </aop:aspect>
+    </aop:config>
+
+
+</beans>

@@ -28,6 +28,7 @@
 
     <!--You can import other configs-->
     <import resource="database-config.xml"/>
+    <import resource="aspect-config.xml"/>
 
     <bean id="houseService" class="za.co.mahadew.damien.services.impl.HouseServiceImpl">
         <!--You may leave out name for constructor injection if the types match the input args of the constructor-->

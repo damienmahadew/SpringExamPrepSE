@@ -7,4 +7,6 @@ import za.co.mahadew.damien.models.Laptop;
  */
 public interface LaptopService {
     String getLaptopDetails(Laptop laptop);
+
+    String getTestExceptionThrowing(Laptop laptop);
 }
