@@ -30,4 +30,19 @@
 
     <!--As you can see, using nampespaces hides a lot of the code-->
 
+
+    <!--Initiliazing an external database-->
+    <!--
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="url" value="addUrlValueHere"/>
+        <property name="username" value="addUsernameValueHere"/>
+        <property name="password" value="addPasswordValueHere"/>
+    </bean>
+    -->
+    <!--The code below is used to initialize an external database - see DataAccessConfig for java implementation
+    <jdbc:initialize-database data-source="dataSource">
+        <jdbc:script location="classpath:databasescripts/schema.sql"/>
+        <jdbc:script location="classpath:databasescripts/data.sql"/>
+    </jdbc:initialize-database>
+-->
 </beans>

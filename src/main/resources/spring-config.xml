@@ -77,4 +77,6 @@
     <beans profile="prod">
         <!--<util:properties id="configProps" location="environment.properties"/>-->
     </beans>
+
+
 </beans>

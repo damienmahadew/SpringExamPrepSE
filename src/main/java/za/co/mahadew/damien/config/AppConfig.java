@@ -10,8 +10,8 @@ import org.springframework.context.annotation.ImportResource;
  * Created by DAMIEN6 on 14/09/2016.
  */
 @Configuration
-@ImportResource("classpath:/spring-config.xml") //import xml configuration
-@Import({InfrastructureConfig.class, BusinessConfig.class, AnnotationConfig.class, AspectConfig.class})
+@ImportResource({"classpath:/spring-config.xml", "classpath:/cache-config.xml"}) //import xml configuration
+@Import({InfrastructureConfig.class, BusinessConfig.class, AnnotationConfig.class, AspectConfig.class, CacheConfig.class})
 public class AppConfig {
 
     @Bean(name = "getHelloWorld")
