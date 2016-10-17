@@ -187,4 +187,152 @@ package za.co.mahadew.damien.repositories;
  *   JDBC Template transforms sqlExceptions into
  *   DataAccessExceptions
  *
+ *
+ * Transactions
+ *  - A set of tasks which take place as a single, indivisible action
+ *      - An atomic, consistent, isolated, durable operation
+ *      - Acronym - ACID
+ *  - Why?
+ *      1. Atomic - each unit of work is in an all or nothing operation
+ *      2. Consistent - database integrity constraints are never violated
+ *      3. Isolated - isolating transactions from each other
+ *      4. Durable - committed changes are permanent
+ *
+ *  Naive approach - e.g. if there are 4 queries in a single business method, then 4 data access operations are performed
+ *                          each acquires, uses and releases a distinct connection
+ *                          - This is non-transactional
+ *                          - Can lead to partial failures - one data access can fail, then there is inconsistent data
+ *
+ *  Transactions use the same connection for all data access operations for the method
+ *
+ *  Java Transaction Management
+ *      Several API's
+ *          - JDBC, JMS, JTA, Hibernate, JPA
+*       Each uses program code to mark the start and end of a transaction
+ *
+ *      *Different API's for Global and local transactions
+ *
+ *      Local transaction - single resource(e.g. 1 DB), transactions managed by underlying resource
+ *      Global transaction - multiple resources(e.g. 1 DB, JMS, another DB) - transactions managed by a transaction manager
+ *
+ *
+ *  E.g. of JDBC transaction management
+ *      try {
+ *          conn = ...;
+ *          conn.setAutoCommit(false);
+ *          ...
+ *          ...
+ *          conn.commit();
+ *      } catch (Exception e) {
+ *          conn.rollback();
+ *      }
+ *
+ * ** Code cannot join a transaction already in progress
+ * ** Code cannot be used with a global transaction
+ *
+ *      e.g. Hibernate
+ *      Transaction tx = session.beginTransaction();
+ *      .
+ *      .
+ *      tx.commit();
+ *
+ *      e.g. JPA
+ *      Transaction tx = entityManager.getTransaction();
+ *      tx.begin();
+ *      .
+ *      .
+ *      tx.commit();
+ *
+ *
+ *      For JTA implementation look at page 205
+ *
+ * PROBLEMS with java transaction management:
+ *  - Multiple API's for different local resources
+ *  - Programatic transaction demarcation
+ *      - Typically performed in the repo layer - wrong place
+ *      - usually repeated, cross cutting concerns
+ *  - Service layer more appropriate
+ *      - Multiple data access methods often called within a single transcation
+ *      - but dont want data access methods in the service layer
+ *  -Orthogonal concerns
+ *      - Transactions demarcations should be independent of transaction implementation
+ *
+ * Spring Transaction Management
+ *      - Separates transaction demarcation from implementation
+ *          - Demarcation expressed by AOP
+ *          - PlatformTransactionManager abstraction hides implementation details
+ *              - Several implementations available
+ *      - Spring uses the same API for global vs local
+ *          - Just change the transaction manager
+ *
+ *      - There are 2 steps
+ *          1. Declare a PlatformTransactionManager Bean
+ *          2. Declare the transactional methods
+ *              -Using annotations, XML, Programmatic
+ *              - Can mix and match
+ *
+ *
+*      PlatformTransactionManager
+ *          - Base interface for the abstraction
+ *          - Several implementations
+ *              1. DataSourceTransactionManager
+ *              2. HibernateTransactionManager
+ *              3. JpaTransactionManager
+ *              4. JtaTransactionManager
+ *              5. WeblogicJtaTransactionManager
+ *              6. WebSphereUowTransactionManager
+ *              etc..
+ *   {@link za.co.mahadew.damien.config.DataAccessConfig} -- has an example of TransactionManager
+ *
+ *
+ *   What exactly happens in a @Transactional
+ *      1. Target object wrapped in a proxy
+ *          - Uses an around service
+*       2. Proxy implements the ffg behavior:
+ *          a. Transaction started before entering the method
+ *          b. Commit at the end of the method
+ *          c. rollback if method throws a runtime exception
+ *              - default behavior
+ *              - can be overridden
+ *      3. Transaction context bound to current thread
+ *      4. All controlled by configuration
+ *
+ *  @Transactional - on a class level - applies @Transcational to all methods of the class
+ *
+ *
+ *  Isolation Levels :
+ *      1. READ_UNCOMMITTED
+ *      2. READ_COMMITTED
+ *      3. REPEATABLE_READ
+ *      4. SERIALIZABLE
+ *  Some DBMS do not support all levels, and isolation is a complicated subject
+ *      - DBMS have different ways of implementation of isolation
+ *
+ *  Dirty Read - when a select is done before another transaction is complete, the value read is different from what the actual value is
+ *
+ *  {@link za.co.mahadew.damien.services.impl.DatabaseServiceImpl} - has examples of the isolation levels
+ *
+ *  Transaction propagation
+ *      - when there are nested transactions, what should happen?
+ *
+ *  Spring has 7 levels of propagation
+ *      1. REQUIRED (default)
+ *      2. REQUIRES_NEW
+ *
+ * {@link za.co.mahadew.damien.services.impl.DatabaseServiceImpl} - has examples of the propagation levels
+ *
+ *
+ * Rollback rules
+ *      - by default a transaction is rolled back if a runtime exception is thrown
+ *              - e.g. DataAccessException, HibernateException
+ *      - can specify conditions where rollback is not performed for thrown exceptions
+ *      see {@link za.co.mahadew.damien.services.impl.DatabaseServiceImpl} for examples
+ *
+ * Testing transactions --
+ *      - Add @Transactional to @Test method
+ *      - Runs test method in a transaction
+ *          No need to clean up your database after testing
+ *
+ *
+ *
  */
