@@ -1,5 +1,6 @@
 package za.co.mahadew.damien;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -7,6 +8,8 @@ import za.co.mahadew.damien.config.AppConfig;
 import za.co.mahadew.damien.models.Laptop;
 import za.co.mahadew.damien.services.LaptopService;
 import za.co.mahadew.damien.services.NotificationService;
+
+import javax.persistence.EntityManager;
 
 /**
  * Hello world!
@@ -51,7 +54,11 @@ public class App
 
         }
 
+        EntityManager entityManager = (EntityManager) applicationContext.getBean("entityManager");
+
 
 
     }
+
+
 }

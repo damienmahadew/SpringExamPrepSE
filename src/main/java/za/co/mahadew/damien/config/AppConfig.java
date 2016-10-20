@@ -1,17 +1,20 @@
 package za.co.mahadew.damien.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 
+import javax.persistence.EntityManager;
+
 /**
  * Created by DAMIEN6 on 14/09/2016.
  */
 @Configuration
-@ImportResource({"classpath:/spring-config.xml", "classpath:/cache-config.xml"}) //import xml configuration
-@Import({InfrastructureConfig.class, BusinessConfig.class, AnnotationConfig.class, AspectConfig.class, CacheConfig.class})
+@ImportResource({"classpath:/spring-config.xml"}) //import xml configuration
+@Import({JpaConfig.class ,InfrastructureConfig.class, BusinessConfig.class, AnnotationConfig.class, AspectConfig.class, CacheConfig.class})
 public class AppConfig {
 
     @Bean(name = "getHelloWorld")

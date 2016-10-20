@@ -333,6 +333,91 @@ package za.co.mahadew.damien.repositories;
  *      - Runs test method in a transaction
  *          No need to clean up your database after testing
  *
+ *  JPA with Spring and Spring data
+ *
+ *      JPA
+ *          -Java persistence API is designed for operating on domain objects
+ *              - Defined as POJO entities
+ *              - No special interface required
+ *          -Replaces previous persistence mechanisms
+ *              -EJB entity beans
+ *              -Java Data Objects(JDO)
+ *          -A common API for ORM
+ *              - derived from the experience of existing products such as Jboss hibernate oracle top link
+ *          -Key concepts
+ *              -Entity Manager
+ *              -Entity Manager factory
+ *              -Persistence context
+ *      Entity Manager
+ *          - Manages a unit of work and persistence objects therein: the persistence context
+ *          - lifecyle often bound to a transaction - usually container managed
+ *      Entity Manager factory
+ *          - thread-safe, shareable object that represents a single data source / persistence unit
+ *          - provides access to new application managed entity managers
+ *      Persistence Unit
+ *          - describes a group of persistence classes(entities)
+ *          - defines providers
+ *          - defines transactional types (local vs JTA)
+ *          - multiple units per application are allowed
+ *      Spring JPA Application
+ *          - configuration can be in the persistence unit
+ *          - or in the sprin bean file
+ *          - or a combination of the two
+ *    **EntityManager API
+ *      -persist(Object o)
+ *      -remove(Object o)
+ *      -find(Class entity, Object primaryKey)
+ *      -Query createQuery(String query)
+ *      -flush() = force changed entity state to be written to the DB immediately
+ *
+ *      Several implementations of JPA
+ *          -Hibernate EntityManager
+ *              -used inside Jboss
+ *          -EclipseLink (RI)
+ *              -used inside Glassfish
+ *          -Apache OpenJPA
+ *              -used inside Oracle Weblogic and IBM Websphere
+ *          -Data neclues
+ *              -used by google app engine
+ *        ***Can all be used without application server as well
+ *          -independent part of EJB3 spec
+ *
+ *    Hibernate JPA
+ *      -Adds support through an additional library
+ *          -Hibernate EntityManager
+ *          -Hibernate sessions used behind JPA interfaces
+ *          -Custom annotations for Hibernate specific extensions not covered by JPA
+ *
+ *    JPA Mapping
+ *      -Jpa requires metadata for mapping classes/fields to database tables/columns
+ *          -usually provided as annotations
+ *          -XML mappings also supported(orm.xml)
+ *              -intended for overrides only
+ *      -JPA metadata relies on defaults
+ *          - no need to supply meta data for the obvious
+ *
+ *     What can you annotate:
+ *      - Classes e.g. table properties
+ *      - Fields e.g column - by default all are treated as columns unless @Transient (non-persistent), Access directly via reflection
+ *      - Properties (getters) - also mapped to a column, annotate getters instead of fields
+ *
+ *      JPA Querying
+ *      -JPA provides several options for accessing data
+ *          -retrieve data using primary key
+ *          -query for objects using JPA Query language
+ *           - similar to SQL and HQL
+ *          -query for objects using criteria queries
+ *              -api for creating ad hoc queries
+ *          -execute sql directly to underlying database
+ *              -native queries
+ *              -consider JDBC template instead when not using managed objects
  *
  *
+ *      Steps to using JPA with spring
+ *
+ *          -define an entityManager
+ *          -define a dataSource bean
+ *          -define a transaction Manager bean
+ *          -define  mapping metadata
+ *          -define DAO's
  */
